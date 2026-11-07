@@ -29,7 +29,6 @@ function chooseRole(role) {
   userRole = role;
   localStorage.setItem('userRole', role);
   document.getElementById('rolePopup').style.display = 'none';
-  location.reload();
 }
 
 function t(maleText, femaleText) {
