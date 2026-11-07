@@ -1,3 +1,39 @@
+// نعرف اللي فاتح مذكر ولا مؤنث + طالب ولا مدرس
+let userGender = localStorage.getItem('userGender');
+let userRole = localStorage.getItem('userRole');
+
+window.addEventListener('load', function() {
+  if (!userGender) {
+    document.getElementById('genderPopup').style.display = 'flex';
+  } else if (!userRole) {
+    updateRoleLabels();
+    document.getElementById('rolePopup').style.display = 'flex';
+  }
+});
+
+function updateRoleLabels() {
+  document.getElementById('studentBtn').textContent = 'Student';
+  document.getElementById('teacherBtn').textContent = 'Teacher';
+}
+
+
+function chooseGender(gender) {
+  userGender = gender;
+  localStorage.setItem('userGender', gender);
+  document.getElementById('genderPopup').style.display = 'none';
+  updateRoleLabels();
+  document.getElementById('rolePopup').style.display = 'flex';
+}
+
+function chooseRole(role) {
+  userRole = role;
+  localStorage.setItem('userRole', role);
+  document.getElementById('rolePopup').style.display = 'none';
+}
+
+function t(maleText, femaleText) {
+  return userGender === 'male' ? maleText : femaleText;
+}
 class Student {
   constructor(id, name, grades, attendance) {
     this.id = id;
@@ -33,6 +69,12 @@ let studentsList = [
 ];
 
 function render() {
+  let addBtn = document.getElementById("addBtn");
+if (addBtn) addBtn.style.display = (userRole === 'teacher' || userRole === 'Teacher') ? 'block' : 'none';
+let delHeader = document.getElementById("delHeader");
+if (delHeader) delHeader.style.display = (userRole === 'teacher' || userRole === 'Teacher') ? '' : 'none';
+let addForm = document.getElementById("addForm");
+if (addForm) addForm.style.display = (userRole === 'teacher' || userRole === 'Teacher') ? 'block' : 'none';
   let tbody = document.getElementById("studentsTable");
   tbody.innerHTML = "";
   studentsList.forEach((student, index) => {
@@ -42,9 +84,9 @@ function render() {
       <td>${student.getAverage().toFixed(2)}</td>
       <td>${student.getGrade()}</td>
       <td class="${student.getResult() === "ناجح" ? "success" : "fail"}">${student.getResult()}</td>
-      <td><button class="delete-btn" onclick="deleteStudent(${index})">حذف</button></td>
-    </tr>`;
-  });
+      <td>${userRole === 'teacher' || userRole === 'Teacher' ? '<button class="delete-btn" onclick="deleteStudent(' + index + ')">حذف</button>' : ''}</td>
+            </tr>`;
+    });
 
   let struggling = studentsList.filter(s => s.getAverage() >= 40 && s.getAverage() <= 49);
   let afterMercy = struggling.map(s => s.getAverage() + 5);

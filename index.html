@@ -63,10 +63,29 @@ tr:nth-child(even) { background: #0a2438; }
 </style>
 </head>
 <body>
+ <!-- نافذة اختيار النوع -->
+<div id="genderPopup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:9999; display:flex; align-items:center; justify-content:center;">
+  <div style="background:white; padding:30px; border-radius:20px; text-align:center; width:90%; max-width:350px;">
+    <h2 style="margin-bottom:10px;">أهلاً بيك! 👋</h2>
+    <p style="margin-bottom:20px;">تحب نكلمك بأي صيغة؟</p>
+    <button onclick="chooseGender('male')" style="padding:12px 20px; font-size:18px; margin:5px; border-radius:10px; cursor:pointer; border:none; background:#4da6ff; color:white;">مذكر</button>
+    <button onclick="chooseGender('female')" style="padding:12px 20px; font-size:18px; margin:5px; border-radius:10px; cursor:pointer; border:none; background:#ff7eb9; color:white;">مؤنث</button>
+  </div>
+</div> 
+  <!-- نافذة اختيار الدور -->
+<div id="rolePopup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:9999; align-items:center; justify-content:center;">
+  <div style="background:white; padding:30px; border-radius:20px; text-align:center; width:90%; max-width:350px;">
+    <h2 style="margin-bottom:10px;">انت مين؟ 🎓</h2>
+    <p style="margin-bottom:20px;">اختار دورك عشان نظبطلك الموقع</p>
+    <button id="studentBtn" onclick="chooseRole('student')" style="padding:12px 20px; font-size:18px; margin:5px; border-radius:10px; cursor:pointer; border:none; background:#4da6ff; color:white;">Student</button>
+    <button id="teacherBtn" onclick="chooseRole('teacher')" style="padding:12px 20px; font-size:18px; margin:5px; border-radius:10px; cursor:pointer; border:none; background:#ff7eb9; color:white;">Teacher</button>
+  </div>
+</div>
 <div class="card">
 <h1>🎓 نظام إدارة نتائج الطلاب</h1>
 <p class="subtitle">تابع درجاتك - تقديرك - نتيجتك في مكان واحد</p>
 
+<div id="addForm">
 <h3>إضافة طالب جديد</h3>
 
 <label>ID الطالب</label>
@@ -87,12 +106,11 @@ tr:nth-child(even) { background: #0a2438; }
 <label>نسبة الحضور %</label>
 <input id="att" type="number" placeholder="مثال: 95">
 
-<button onclick="addStudent()">+ إضافة طالب</button>
-
+<button id="addBtn" onclick="addStudent()">+ إضافة طالب</button>
+</div>
 <table>
 <thead>
-<tr><th>ID</th><th>الاسم</th><th>المتوسط</th><th>التقدير</th><th>النتيجة</th><th>حذف</th></tr>
-</thead>
+<tr><th>ID</th><th>الاسم</th><th>المتوسط</th><th>التقدير</th><th>النتيجة</th><th id="delHeader">حذف</th></tr></thead>
 <tbody id="studentsTable"></tbody>
 </table>
 
