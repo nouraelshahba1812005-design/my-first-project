@@ -29,8 +29,9 @@ function chooseRole(role) {
   userRole = role;
   localStorage.setItem('userRole', role);
   document.getElementById('rolePopup').style.display = 'none';
+  updateRoleLabels();
+  render();
 }
-
 function t(maleText, femaleText) {
   return userGender === 'male' ? maleText : femaleText;
 }
