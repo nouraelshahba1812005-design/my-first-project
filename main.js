@@ -20,11 +20,8 @@ class Student {
   }
   getResult() {
     let avg = this.getAverage();
-    if (avg >= 50 && this.attendance >= 75) {
-      return "ناجح";
-    } else {
-      return "يحتاج مراجعة";
-    }
+    if (avg >= 50 && this.attendance >= 75) return "ناجح";
+    else return "يحتاج مراجعة";
   }
 }
 
@@ -35,23 +32,53 @@ let studentsList = [
   new Student(4, "صلاح", [40, 44, 46], 70),
 ];
 
-console.log("===== تقرير الطلاب =====");
-studentsList.forEach((student) => {
-  console.log("الاسم: " + student.name + " | المتوسط: " + student.getAverage().toFixed(2) + " | التقدير: " + student.getGrade() + " | النتيجة: " + student.getResult());
-});
+function render() {
+  let tbody = document.getElementById("studentsTable");
+  tbody.innerHTML = "";
+  studentsList.forEach((student, index) => {
+    tbody.innerHTML += `<tr>
+      <td>${student.id}</td>
+      <td>${student.name}</td>
+      <td>${student.getAverage().toFixed(2)}</td>
+      <td>${student.getGrade()}</td>
+      <td class="${student.getResult() === "ناجح" ? "success" : "fail"}">${student.getResult()}</td>
+      <td><button class="delete-btn" onclick="deleteStudent(${index})">حذف</button></td>
+    </tr>`;
+  });
 
-let strugglingStudents = studentsList.filter((student) => {
-  let avg = student.getAverage();
-  return avg >= 40 && avg <= 49;
-});
+  let struggling = studentsList.filter(s => s.getAverage() >= 40 && s.getAverage() <= 49);
+  let afterMercy = struggling.map(s => s.getAverage() + 5);
+  let total = afterMercy.reduce((acc, avg) => acc + avg, 0);
+  let mercyAverage = afterMercy.length === 0 ? 0 : total / afterMercy.length;
 
-let afterMercy = strugglingStudents.map((student) => {
-  return student.getAverage() + 5;
-});
+  document.getElementById("mercyBox").innerHTML =
+    `<h3>الطلاب المتعثرين بعد الرأفة (+5 درجات)</h3>
+    <p>عدد المتعثرين: ${struggling.length} | متوسطهم بعد الرأفة: ${mercyAverage.toFixed(2)}</p>
+    <p>${struggling.map(s => s.name + " → " + (s.getAverage() + 5).toFixed(2)).join(" | ") || "مفيش طلاب متعثرين"}</p>`;
+}
 
-console.log("===== الطلاب المتعثرين بعد الرأفة =====");
-console.log(afterMercy);
+function addStudent() {
+  let idInput = document.getElementById("studentId").value;
+  let name = document.getElementById("name").value;
+  let g1 = Number(document.getElementById("g1").value);
+  let g2 = Number(document.getElementById("g2").value);
+  let g3 = Number(document.getElementById("g3").value);
+  let att = Number(document.getElementById("att").value);
+  if (!name) { alert("اكتبي الاسم الأول"); return; }
+  let newId = idInput ? Number(idInput) : studentsList.length + 1;
+  studentsList.push(new Student(newId, name, [g1, g2, g3], att));
+  render();
+  document.getElementById("studentId").value = "";
+  document.getElementById("name").value = "";
+  document.getElementById("g1").value = "";
+  document.getElementById("g2").value = "";
+  document.getElementById("g3").value = "";
+  document.getElementById("att").value = "";
+}
 
-let totalAfterMercy = afterMercy.reduce((acc, avg) => acc + avg, 0);
-let mercyAverage = afterMercy.length === 0 ? 0 : totalAfterMercy / afterMercy.length;
-console.log("متوسط درجات المتعثرين بعد الرأفة: " + mercyAverage.toFixed(2));
+function deleteStudent(index) {
+  studentsList.splice(index, 1);
+  render();
+}
+
+render();

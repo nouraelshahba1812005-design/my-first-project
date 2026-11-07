@@ -1,11 +1,103 @@
 <!DOCTYPE html>
-<html>
+<html lang="ar" dir="rtl">
 <head>
-  <title>نظام إدارة نتائج الطلاب</title>
+<meta charset="UTF-8">
+<title>نظام إدارة نتائج الطلاب</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  font-family: Arial;
+  background: #010a14;
+  color: #e8f6f5;
+  padding: 20px;
+  margin: 0;
+}
+.card {
+  background: #071a2e;
+  max-width: 650px;
+  margin: auto;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+  border: 1px solid #123a52;
+}
+h1 { text-align: center; color: #67e8f9; margin-bottom: 5px; }
+.subtitle { text-align: center; color: #8fb8c9; font-size: 14px; margin-bottom: 20px; }
+h3 { color: #67e8f9; }
+label { display: block; margin: 12px 0 5px; font-size: 14px; color: #c2dbe6; }
+input {
+  display: block;
+  width: 100%;
+  padding: 13px;
+  background: #020d1a;
+  color: white;
+  border: 1px solid #16425b;
+  border-radius: 12px;
+  outline: none;
+  font-size: 15px;
+}
+input:focus { border-color: #22d3ee; box-shadow: 0 0 0 2px #22d3ee33; }
+input::placeholder { color: #5f7f91; }
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 18px;
+  background: #0891b2;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
+button:hover { background: #06b6d4; }
+table { width: 100%; border-collapse: collapse; margin-top: 25px; font-size: 14px; }
+th { background: #0e7490; color: white; padding: 12px 8px; }
+td { padding: 12px 8px; border-bottom: 1px solid #123a52; text-align: center; }
+tr:nth-child(even) { background: #0a2438; }
+.delete-btn { width: auto; padding: 7px 14px; margin: 0; background: #e11d48; color: white; font-size: 13px; }
+.success { color: #5eead4; font-weight: bold; }
+.fail { color: #fb7185; font-weight: bold; }
+.mercy { background: #020d1a; padding: 18px; border-radius: 15px; margin-top: 20px; text-align: center; border: 1px solid #123a52; }
+.mercy h3 { margin-top: 0; }
+</style>
 </head>
 <body>
-  <h1> عشان تشوف النتيجة Console افتح الـ </h1>
-  <p>دوس كليك يمين -> Inspect -> Console</p>
-  <script src="main.js"></script>
+<div class="card">
+<h1>🎓 نظام إدارة نتائج الطلاب</h1>
+<p class="subtitle">تابع درجاتك - تقديرك - نتيجتك في مكان واحد</p>
+
+<h3>إضافة طالب جديد</h3>
+
+<label>ID الطالب</label>
+<input id="studentId" type="number" placeholder="مثال: 5">
+
+<label>اسم الطالب</label>
+<input id="name" placeholder="مثال: نور">
+
+<label>الدرجة الأولى</label>
+<input id="g1" type="number" placeholder="مثال: 85">
+
+<label>الدرجة الثانية</label>
+<input id="g2" type="number" placeholder="مثال: 90">
+
+<label>الدرجة الثالثة</label>
+<input id="g3" type="number" placeholder="مثال: 88">
+
+<label>نسبة الحضور %</label>
+<input id="att" type="number" placeholder="مثال: 95">
+
+<button onclick="addStudent()">+ إضافة طالب</button>
+
+<table>
+<thead>
+<tr><th>ID</th><th>الاسم</th><th>المتوسط</th><th>التقدير</th><th>النتيجة</th><th>حذف</th></tr>
+</thead>
+<tbody id="studentsTable"></tbody>
+</table>
+
+<div class="mercy" id="mercyBox"></div>
+</div>
+<script src="main.js"></script>
 </body>
 </html>
